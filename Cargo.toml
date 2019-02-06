@@ -1,8 +1,17 @@
 [package]
 name = "portpicker"
+description = "Pick a free unused port"
 version = "0.1.0"
 authors = ["Hannes Karppila <hannes.karppila@gmail.com>"]
 edition = "2018"
+
+repository = "https://github.com/Dentosal/portpicker-rs"
+readme = "README.md"
+
+keywords = ["port", "network"]
+categories = ["network-programming"]
+
+license = "Unlicense"
 
 [dependencies]
 rand = "0.6"
