@@ -20,7 +20,7 @@ pub fn is_free_udp(port: Port) -> bool {
     let ipv4 = SocketAddrV4::new(Ipv4Addr::LOCALHOST, port);
     let ipv6 = SocketAddrV6::new(Ipv6Addr::LOCALHOST, port, 0, 0);
 
-    test_bind_udp(ipv6).is_some() && test_bind_udp(ipv4).is_some()
+    test_bind_udp(ipv6).is_some() || test_bind_udp(ipv4).is_some()
 }
 
 /// Check if a port is free on TCP
@@ -28,7 +28,7 @@ pub fn is_free_tcp(port: Port) -> bool {
     let ipv4 = SocketAddrV4::new(Ipv4Addr::LOCALHOST, port);
     let ipv6 = SocketAddrV6::new(Ipv6Addr::LOCALHOST, port, 0, 0);
 
-    test_bind_tcp(ipv6).is_some() && test_bind_tcp(ipv4).is_some()
+    test_bind_tcp(ipv6).is_some() || test_bind_tcp(ipv4).is_some()
 }
 
 /// Check if a port is free on both TCP and UDP
@@ -46,7 +46,7 @@ fn ask_free_tcp_port() -> Option<Port> {
 
 /// Picks an available port that is available on both TCP and UDP
 /// ```rust
-/// use portpicker::pick_unused_port;
+/// use portpicker::*;
 /// let port: u16 = pick_unused_port().expect("No ports free");
 /// ```
 pub fn pick_unused_port() -> Option<Port> {
