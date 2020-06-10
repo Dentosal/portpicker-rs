@@ -14,4 +14,4 @@ categories = ["network-programming"]
 license = "Unlicense"
 
 [dependencies]
-rand = "0.6"
+rand = ">= 0.6"
