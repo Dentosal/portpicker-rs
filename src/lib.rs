@@ -1,7 +1,7 @@
+use rand::prelude::*;
 use std::net::{
     Ipv4Addr, Ipv6Addr, SocketAddrV4, SocketAddrV6, TcpListener, ToSocketAddrs, UdpSocket,
 };
-use rand::prelude::*;
 
 pub type Port = u16;
 
@@ -17,16 +17,16 @@ fn test_bind_tcp<A: ToSocketAddrs>(addr: A) -> Option<Port> {
 
 /// Check if a port is free on UDP
 pub fn is_free_udp(port: Port) -> bool {
-    let ipv4 = SocketAddrV4::new(Ipv4Addr::LOCALHOST, port);
-    let ipv6 = SocketAddrV6::new(Ipv6Addr::LOCALHOST, port, 0, 0);
+    let ipv4 = SocketAddrV4::new(Ipv4Addr::UNSPECIFIED, port);
+    let ipv6 = SocketAddrV6::new(Ipv6Addr::UNSPECIFIED, port, 0, 0);
 
     test_bind_udp(ipv6).is_some() && test_bind_udp(ipv4).is_some()
 }
 
 /// Check if a port is free on TCP
 pub fn is_free_tcp(port: Port) -> bool {
-    let ipv4 = SocketAddrV4::new(Ipv4Addr::LOCALHOST, port);
-    let ipv6 = SocketAddrV6::new(Ipv6Addr::LOCALHOST, port, 0, 0);
+    let ipv4 = SocketAddrV4::new(Ipv4Addr::UNSPECIFIED, port);
+    let ipv6 = SocketAddrV6::new(Ipv6Addr::UNSPECIFIED, port, 0, 0);
 
     test_bind_tcp(ipv6).is_some() && test_bind_tcp(ipv4).is_some()
 }
@@ -38,8 +38,8 @@ pub fn is_free(port: Port) -> bool {
 
 /// Asks the OS for a free port
 fn ask_free_tcp_port() -> Option<Port> {
-    let ipv4 = SocketAddrV4::new(Ipv4Addr::LOCALHOST, 0);
-    let ipv6 = SocketAddrV6::new(Ipv6Addr::LOCALHOST, 0, 0, 0);
+    let ipv4 = SocketAddrV4::new(Ipv4Addr::UNSPECIFIED, 0);
+    let ipv6 = SocketAddrV6::new(Ipv6Addr::UNSPECIFIED, 0, 0, 0);
 
     test_bind_tcp(ipv6).or_else(|| test_bind_tcp(ipv4))
 }
