@@ -2,6 +2,7 @@ use rand::prelude::*;
 use std::net::{
     Ipv4Addr, Ipv6Addr, SocketAddrV4, SocketAddrV6, TcpListener, ToSocketAddrs, UdpSocket,
 };
+use std::ops::Range;
 
 pub type Port = u16;
 
@@ -74,12 +75,35 @@ pub fn pick_unused_port() -> Option<Port> {
     None
 }
 
+/// Picks an available port that is available on both TCP and UDP within a range
+/// ```rust
+/// use portpicker::pick_unused_port_range;
+/// let port: u16 = pick_unused_port_range(15000..16000).expect("No ports free");
+/// ```
+pub fn pick_unused_port_range(range: Range<u16>) -> Option<Port> {
+    range
+        .into_iter()
+        .filter(|x| is_free(*x))
+        .next()
+}
+
 #[cfg(test)]
 mod tests {
     use super::pick_unused_port;
+    use super::pick_unused_port_range;
 
     #[test]
     fn it_works() {
         assert!(pick_unused_port().is_some());
+    }
+
+    #[test]
+    fn port_range_test(){
+        if let Some(p) = pick_unused_port_range(15000..16000) {
+            assert!(p >= 15000 && p <= 16000)
+        }
+        if let Some(p) = pick_unused_port_range(20000..21000) {
+            assert!(p >= 20000 && p <= 21000)
+        }
     }
 }
